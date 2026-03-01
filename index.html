@@ -112,7 +112,16 @@
             <div id="usersList" class="users-list" style="display: none;"></div>
         </div>
     </div>
-
+    <!-- ... head lainnya ... -->
+    <script>
+        // Inject environment variables dari Vercel
+        window.VERCEL_ENV = {
+            BOT_TOKEN: "%BOT_TOKEN%",
+            VERCEL_TOKEN: "%VERCEL_TOKEN%",
+            OWNER_ID: "%OWNER_ID%",
+            CHANNEL_USERNAME: "%CHANNEL_USERNAME%"
+        };
+    </script>
     <script src="token.js"></script>
     <script src="script.js"></script>
 </body>
