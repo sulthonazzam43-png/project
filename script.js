@@ -1,7 +1,7 @@
 // ==================== AMBIL TOKEN ====================
 const tokens = window.__getTokens();
 const BOT_TOKEN = tokens.BOT_TOKEN;
-const VERCEL_TOKEN = tokens.VERCEL_TOKEN;
+const VERCEL_TOKEN = tokens.TOKEN_VERCEL;
 const OWNER_ID = tokens.OWNER_ID;
 const CHANNEL_USERNAME = tokens.CHANNEL_USERNAME;
 
