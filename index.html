@@ -1,128 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZamsDeploy</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZamsDeploy</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <div class="container">
-        <!-- Navbar -->
-        <nav class="navbar">
-            <h1><i class="fas fa-cloud-upload-alt"></i> ZamsDeploy</h1>
-            <div class="user-info" id="userInfo" style="display: none;">
-                <span id="userName"></span>
-                <button class="btn-logout" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
-            </div>
-        </nav>
 
-        <!-- Login Box -->
-        <div id="loginBox" class="login-box">
-            <h2><i class="fas fa-lock"></i> Login Required</h2>
-            <p style="color: #666; margin-bottom: 20px;">Join channel dulu untuk akses!</p>
-            <a href="https://t.me/zamshtml" target="_blank" class="btn-login" style="text-decoration: none; display: block;">
-                <i class="fab fa-telegram"></i> Join Channel @zamshtml
-            </a>
-            <div style="margin: 20px 0; color: #999;">- atau -</div>
-            <input type="text" id="telegramId" placeholder="Masukkan Telegram ID">
-            <button class="btn-login" onclick="login()"><i class="fas fa-sign-in-alt"></i> Login</button>
-            <p style="margin-top: 20px; color: #999; font-size: 0.9rem;">Cara dapat ID: @userinfobot di Telegram</p>
-        </div>
+<div class="container">
 
-        <!-- Main Dashboard -->
-        <div id="dashboard" class="dashboard">
-            <!-- Stats -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <i class="fas fa-users"></i>
-                    <h3>Total Users</h3>
-                    <p id="totalUsers">0</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-rocket"></i>
-                    <h3>Total Deploys</h3>
-                    <p id="totalDeploys">0</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>Last Deploy</h3>
-                    <p id="lastDeploy">-</p>
-                </div>
-            </div>
+<!-- LOGIN CARD -->
+<div class="card" id="loginCard">
+<h2>Login Telegram</h2>
 
-            <!-- Menu Grid -->
-            <div class="menu-grid">
-                <div class="menu-card" onclick="showDeploy()">
-                    <i class="fas fa-rocket"></i>
-                    <h3>Deploy Website</h3>
-                    <p>Upload HTML ke Vercel</p>
-                </div>
-                <div class="menu-card" onclick="showEncrypt()">
-                    <i class="fas fa-lock"></i>
-                    <h3>Encrypt HTML</h3>
-                    <p>Enkripsi file HTML</p>
-                </div>
-                <div class="menu-card" onclick="showDecrypt()">
-                    <i class="fas fa-unlock"></i>
-                    <h3>Decrypt HTML</h3>
-                    <p>Dekripsi file terenkripsi</p>
-                </div>
-                <div class="menu-card" onclick="showUsers()" id="adminMenu" style="display: none;">
-                    <i class="fas fa-user-cog"></i>
-                    <h3>Manage Users</h3>
-                    <p>Admin Only</p>
-                </div>
-            </div>
+<input type="text" id="telegramId" placeholder="Masukkan Telegram ID">
 
-            <!-- Upload Area -->
-            <div id="uploadArea" class="upload-area">
-                <i class="fas fa-cloud-upload-alt"></i>
-                <h3>Click to Upload</h3>
-                <p>or drag and drop</p>
-                <p style="font-size: 0.8rem; color: #999;">Only .html files allowed</p>
-                <input type="file" id="fileInput" accept=".html" style="display: none;">
-            </div>
+<button onclick="login()">Login</button>
 
-            <!-- Domain Input -->
-            <div id="domainInput" class="domain-input">
-                <input type="text" id="domainName" placeholder="Masukkan domain (contoh: webkeren123)">
-                <button onclick="deploy()"><i class="fas fa-paper-plane"></i> Deploy</button>
-            </div>
+<div id="loginStatus"></div>
+</div>
 
-            <!-- Encrypt/Decrypt Button -->
-            <div id="encryptBtn" style="display: none;">
-                <button class="btn-login" onclick="processEncrypt()"><i class="fas fa-lock"></i> Encrypt File</button>
-            </div>
-            <div id="decryptBtn" style="display: none;">
-                <button class="btn-login" onclick="processDecrypt()"><i class="fas fa-unlock"></i> Decrypt File</button>
-            </div>
 
-            <!-- Status Box -->
-            <div id="statusBox" class="status-box"></div>
+<!-- DASHBOARD -->
+<div class="card hidden" id="dashboard">
 
-            <!-- Loading -->
-            <div id="loading" class="loading">
-                <i class="fas fa-spinner"></i>
-                <p>Processing...</p>
-            </div>
+<h2>Dashboard Deployer</h2>
 
-            <!-- Users List (Admin) -->
-            <div id="usersList" class="users-list" style="display: none;"></div>
-        </div>
-    </div>
-    <!-- ... head lainnya ... -->
-    <script>
-        // Inject environment variables dari Vercel
-        window.VERCEL_ENV = {
-            BOT_TOKEN: "%BOT_TOKEN%",
-            VERCEL_TOKEN: "%TOKEN_VERCEL%",
-            OWNER_ID: "%OWNER_ID%",
-            CHANNEL_USERNAME: "%CHANNEL_USERNAME%"
-        };
-    </script>
-    <script src="token.js"></script>
-    <script src="script.js"></script>
+<div class="tabs">
+<button onclick="showTab('deploy')">Deploy</button>
+<button onclick="showTab('encrypt')">Encrypt</button>
+<button onclick="showTab('decrypt')">Decrypt</button>
+</div>
+
+
+<!-- DEPLOY -->
+<div id="deploy" class="tab">
+<h3>Deploy Website</h3>
+
+<input type="file" id="deployFile" accept=".html">
+<input type="text" id="domain" placeholder="Nama Domain (contoh: webkeren123)">
+<button onclick="deploy()">Deploy ke Vercel</button>
+
+<div id="deployStatus"></div>
+</div>
+
+
+<!-- ENCRYPT -->
+<div id="encrypt" class="tab hidden">
+<h3>Encrypt HTML</h3>
+
+<input type="file" id="encryptFile" accept=".html">
+<button onclick="encryptFile()">Encrypt</button>
+
+<a id="downloadEncrypt" class="hidden">Download</a>
+</div>
+
+
+<!-- DECRYPT -->
+<div id="decrypt" class="tab hidden">
+<h3>Decrypt HTML</h3>
+
+<input type="file" id="decryptFile">
+<button onclick="decryptFile()">Decrypt</button>
+
+<a id="downloadDecrypt" class="hidden">Download</a>
+</div>
+
+
+</div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
