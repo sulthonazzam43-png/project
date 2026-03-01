@@ -42,6 +42,9 @@ function updateStats() {
 // ==================== AUTH FUNCTIONS ====================
 async function checkTelegramJoin(userId) {
     try {
+        // Bersihin userId dari spasi
+        userId = userId.trim();
+        
         const response = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getChatMember`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -50,18 +53,24 @@ async function checkTelegramJoin(userId) {
                 user_id: parseInt(userId)
             })
         });
+        
         const data = await response.json();
+        console.log('Telegram API Response:', data); // Debug
+        
         if (data.ok) {
             const status = data.result.status;
             return ['member', 'administrator', 'creator'].includes(status);
+        } else {
+            // Tampilkan error detail
+            showStatus(`❌ API Error: ${data.description}`, 'error');
+            return false;
         }
-        return false;
     } catch (e) {
-        console.log(e);
+        console.log('Fetch Error:', e);
+        showStatus('❌ Gagal connect ke Telegram. Cek koneksi atau CORS.', 'error');
         return false;
     }
 }
-
 async function login() {
     const userId = document.getElementById('telegramId').value.trim();
     if (!userId) {
