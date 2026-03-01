@@ -10,7 +10,7 @@
         
         return {
             BOT_TOKEN: window.VERCEL_ENV?.BOT_TOKEN || "fallback_token_jangan_dipakai",
-            VERCEL_TOKEN: window.VERCEL_ENV?.VERCEL_TOKEN || "fallback_vercel_token",
+            VERCEL_TOKEN: window.VERCEL_ENV?.TOKEN_VERCEL || "fallback_vercel_token",
             OWNER_ID: parseInt(window.VERCEL_ENV?.OWNER_ID || "6336062767"),
             CHANNEL_USERNAME: window.VERCEL_ENV?.CHANNEL_USERNAME || "@zamshtml"
         };
