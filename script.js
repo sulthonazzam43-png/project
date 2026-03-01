@@ -81,12 +81,19 @@ name:domain
 
 let data = await res.json();
 
+/* DEBUG ERROR */
+if(!data.url){
+status.className="error";
+status.innerHTML="Error:<br>"+JSON.stringify(data);
+return;
+}
+
 status.className="success";
 status.innerHTML=`Deploy sukses:<br>${data.url}`;
 
 }catch(e){
 status.className="error";
-status.innerHTML="Deploy gagal";
+status.innerHTML="Deploy gagal: "+e;
 }
 
 }
