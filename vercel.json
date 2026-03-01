@@ -1,20 +1,9 @@
 {
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    }
-  ],
+  "version": 2,
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ],
-  "env": {
-    "BOT_TOKEN": "@bot_token",
-    "VERCEL_TOKEN": "@vercel_token", 
-    "OWNER_ID": "@owner_id",
-    "CHANNEL_USERNAME": "@channel_username"
-  }
+  ]
 }
